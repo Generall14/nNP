@@ -5,3 +5,9 @@ CONFIG -= qt
 
 SOURCES += main.cpp
 
+HEADERS += \
+    opt/Instance.hpp \
+    opt/Opt.hpp \
+    opt/Result.hpp \
+    opt/Searcher.hpp
+
