@@ -1,1 +1,1 @@
-Dzida testowa dla pewnych nienazwanych i nieopisanych pomysłów.
+Dzida testowa do optymalizacji pewnych nienazwanych i nieopisanych pomysłów.
