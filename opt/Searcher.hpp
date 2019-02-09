@@ -11,8 +11,6 @@
  * Interfejs klas wyszukujących optymalne parametry dla obiektów Instance.
  *
  * Klasy implementujące ten interfejs powinny działać wielowątkowo.
- *
- * Przewi
  */
 
 class Instance;
