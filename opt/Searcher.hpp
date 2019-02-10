@@ -8,7 +8,8 @@
  * @class Searcher
  * @author mgr inż. Wojciech Kogut
  *
- * Interfejs klas wyszukujących optymalne parametry dla obiektów Instance.
+ * Interfejs klas wyszukujących optymalne parametry dla obiektów Instance. Określenie punktu docelowego leży w kwestii
+ * klas implementujących ten interfejs.
  *
  * Klasy implementujące ten interfejs powinny działać wielowątkowo.
  */
