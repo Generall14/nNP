@@ -11,13 +11,13 @@ Instance::Instance(unsigned int params, std::vector<float> min, std::vector<floa
 {
     while(min.size()<params)
         min.push_back(std::numeric_limits<float>::min());
-    while(min.size()<params)
+    while(max.size()<params)
         max.push_back(std::numeric_limits<float>::max());
 
     if(params!=min.size())
         throw std::logic_error("Instance::Instance(unsigned int params, std::vector<float> min, std::vector<float> max): "
                                "nieprawidłowy rozmiar wektora min");
-    if(params!=min.size())
+    if(params!=max.size())
         throw std::logic_error("Instance::Instance(unsigned int params, std::vector<float> min, std::vector<float> max): "
                                "nieprawidłowy rozmiar wektora max");
 

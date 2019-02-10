@@ -1,45 +1,32 @@
-#ifndef INSTANCE_HPP
-#define INSTANCE_HPP
+#ifndef INSTANCEF2D_HPP
+#define INSTANCEF2D_HPP
 
 #include <vector>
+#include "../Instance.hpp"
 
 /**
- * @class Instance
+ * @class InstanceF2D
  * @author mgr inż. Wojciech Kogut
  *
- * Interfejs klas reprezentujących obiekty do optymalizacji.
+ * Klasa reprezentująca problem aproksymacji funkcją n-tego stopnia (v0*x^0 + v1*x^1 + v2*x^2 ...). W konstruktorze
+ * przyjmuje punkty aproksymacji oraz stopień funkcji docelowej. Zwraca przeciwność sumy kwadratów błedów.
  *
- * Parametry optymalizacji są przekazywane jako wektor wartości float, w procesie optymalizacji parametry będą
- * dobierane tak, aby zmaksymalizować wartość zwróconą z metody sim().
- *
- * Klasy dziedziczące po Instance muszą być wątkowo bezpieczne.
+ * Głównym celem tej klasy jest testowanie algorytmów optymalizacji.
  */
 
-class Instance
+class InstanceF2D : public Instance
 {
 public:
-    Instance(unsigned int params,
-             std::vector<float> min=std::vector<float>(),
-             std::vector<float> max = std::vector<float>());
-
-    float sim(const std::vector<float> &params) const;
-
-    virtual bool isOk(const std::vector<float> &params) const;
-
-    const std::vector<float>& getMinParams() const;
-    const std::vector<float>& getMaxParams() const;
+    InstanceF2D(std::vector<std::pair<float, float> > pts, unsigned int n);
 
 protected:
-    /**
-     * Metoda wykonuje symulacje na podstawie wskazanych parametrów, zwraca wartość float proporcjonalną do jakości
-     * aktualnego wyniku (większe wartości oznaczają lepsze parametry). Przekazane parametry są sprawdzone w kwestii
-     * liczby danych oraz poprawności (metodą isOk() ).
-     */
-    virtual float lsim(const std::vector<float> &params) const = 0;
+    virtual float lsim(const std::vector<float> &params) const;
 
 private:
-    std::vector<float> _mins;                           /**<Minimalne wartości dla poszczególnych parametrów.*/
-    std::vector<float> _maxs;                           /**<Maksymalne wartości dla poszczególnych parametrów.*/
+    std::vector<std::pair<float, float> > _pts;
+    unsigned int _n;
+
+    float getVal(const std::vector<float> &params, float x) const;
 };
 
 #endif
