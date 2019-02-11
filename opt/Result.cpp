@@ -28,8 +28,8 @@ res ResultKeeper::getMax() const
 {
     if(_res.empty())
         throw std::logic_error("ResultKeeper::getMax(): brak danych");
-    uint maxi = 0;
-    for(uint i=1;i<_res.size();i++)
+    unsigned int maxi = 0;
+    for(unsigned int i=1;i<_res.size();i++)
     {
         if(_res.at(i).result > _res.at(maxi).result)
             maxi = 1;

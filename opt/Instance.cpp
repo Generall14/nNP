@@ -56,7 +56,7 @@ bool Instance::isOk(const std::vector<float> &params) const
 {
     if(params.size()!=_mins.size())
         throw std::logic_error("Instance::isOk(std::vector<float> params): Niezgodne rozmiary wektorów.");
-    for(uint i=0;i<params.size();i++)
+    for(unsigned int i=0;i<params.size();i++)
     {
         if((params.at(i)<_mins.at(i))||(params.at(i)>_maxs.at(i)))
             return false;

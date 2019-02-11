@@ -20,7 +20,7 @@ class ResultKeeper;
 class Searcher
 {
 public:
-    Searcher(std::shared_ptr<Instance> ins, std::shared_ptr<ResultKeeper> res);
+    Searcher(std::shared_ptr<Instance> ins, std::shared_ptr<ResultKeeper> res = std::shared_ptr<ResultKeeper>());
 
     /**
      * Metoda wykonuje optymalizacje wskazanego obiektu.

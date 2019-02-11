@@ -17,7 +17,9 @@
 class InstanceF2D : public Instance
 {
 public:
-    InstanceF2D(std::vector<std::pair<float, float> > pts, unsigned int n);
+    InstanceF2D(std::vector<std::pair<float, float> > pts, unsigned int n,
+                std::vector<float> min=std::vector<float>(),
+                std::vector<float> max = std::vector<float>());
 
 protected:
     virtual float lsim(const std::vector<float> &params) const;

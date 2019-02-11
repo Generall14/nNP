@@ -5,8 +5,8 @@
  * @param pts - wektor par punktów <x, y>.
  * @param n - stopień wielomianu.
  */
-InstanceF2D::InstanceF2D(std::vector<std::pair<float, float> > pts, unsigned int n):
-    Instance(n+1),
+InstanceF2D::InstanceF2D(std::vector<std::pair<float, float> > pts, unsigned int n, std::vector<float> min, std::vector<float> max):
+    Instance(n+1, min, max),
     _pts(pts),
     _n(n+1)
 {
