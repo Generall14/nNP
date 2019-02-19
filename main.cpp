@@ -4,6 +4,7 @@
 #include "opt/fun2d/InstanceF2D.hpp"
 #include "opt/imp/StupidSearcher.hpp"
 #include "opt/Result.hpp"
+#include "opt/imp/Evolution.hpp"
 
 using namespace std;
 
@@ -20,7 +21,9 @@ int main()
     std::shared_ptr<ResultKeeper> res(new ResultKeeper());
 
 
-    StupidSearcher ss(10000, ins, StupidSearcher::samples, res);
+//    StupidSearcher ss(10000, ins, StupidSearcher::samples, res);
+    Evolution ss(ins, 100, 100, 0, res, 1);
+
     ss.run();
 //    cout << res->report() << endl << endl << endl;
 
