@@ -1,5 +1,7 @@
 #include "StupidSearcher.hpp"
 #include "../Instance.hpp"
+#include "../Result.hpp"
+#include <limits>
 #include <iostream>
 #include <cmath>
 
@@ -14,22 +16,25 @@ StupidSearcher::StupidSearcher(float val, std::shared_ptr<Instance> ins, SS type
             _seed*= (_ins->getMaxParams().at(i)-_ins->getMinParams().at(i));
         _seed /= val;
         _seed = pow(_seed, float(1.0)/float(_ins->getMaxParams().size()));
-//        _seed *= 1+1/val;
     }
-    std::cout << _seed << std::endl;
 }
 
 void StupidSearcher::run()
 {
     _next = _ins->getMinParams();
-    int k = 0;
+    _best.params = _next;
+    _best.result = -std::numeric_limits<float>::max();
     while(calcNext())
     {
-        std::cout << ++k << ": ";
-        for(auto v: _next)
-            std::cout << v << " ";
-        std::cout << std::endl;
+        float last = _ins->sim(_next);
+        if(last>_best.result)
+        {
+            _best.result = last;
+            _best.params = _next;
+        }
+        _res->append(_next, last);
     }
+    _done = true;
 }
 
 bool StupidSearcher::calcNext()
