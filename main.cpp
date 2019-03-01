@@ -20,13 +20,13 @@ int main()
                                                 {-3, 22}
                                                 };
 
-    std::shared_ptr<Instance> ins(new InstanceF2D(pts, 2, {-5, -5, -5}, {5, 5, 5}));
+    std::shared_ptr<Instance> ins(new InstanceF2D(pts, 2, {-5000, -5000, -5000}, {5000, 5000, 5000}));
 
     std::shared_ptr<ResultKeeper> res(new ResultKeeper());
 
 
 //    StupidSearcher ss(10000, ins, StupidSearcher::samples, res);
-    Evolution ss(ins, 100, 1000, res, 1);
+    Evolution ss(ins, 250, 400000, res, -0.01);
 
     ss.run();
     cout << res->report() << endl << endl << endl;

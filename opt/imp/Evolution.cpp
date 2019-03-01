@@ -2,6 +2,7 @@
 #include <exception>
 #include <iostream>
 #include <algorithm>
+#include <ctime>
 #include "../Instance.hpp"
 
 /**
@@ -23,10 +24,11 @@ Evolution::Evolution(std::shared_ptr<Instance> ins,
     _population(population),
     _steps(steps),
     _endValue(endValue),
-    _norm(1, .75)
+    _normHigh(1, 20),
+    _normLow(1, .002),
+    _normMid(1, 2)
 {
-    std::random_device rd;
-    _gen.seed(rd());
+    _gen.seed(std::time(nullptr));
 
     if(population<10)
         throw std::logic_error("Evolution::Evolution: zbyt mała populacja.");
@@ -78,12 +80,35 @@ std::vector<float> Evolution::getChildParams(const std::vector<float>& parent)
     {
         for(unsigned int p=0;p<parent.size();p++)
         {
-            if((rd()%100)<40)
-                temp[p]=(parent.at(p)*_norm(_gen));
+            if((rd()%70)<25)
+                temp[p]=(parent.at(p)*_normHigh(_gen));
+            else if((rd()%70)<25)
+                temp[p]=(parent.at(p)+_normHigh(_gen)-1);
+            else if((rd()%70)<25)
+                temp[p]=(parent.at(p)*_normMid(_gen));
+            else
+                temp[p]=(parent.at(p)*_normLow(_gen));
         }
         if(_ins->isOk(temp))
             break;
     }
+    return temp;
+}
+
+/**
+ * Generuje hybrydę z dwóch losowych rodziców z _vPopulation.
+ */
+std::vector<float> Evolution::makeHybrid()
+{
+    const std::vector<float> b = _vPopulation.at(_gen()%_vPopulation.size()).params;
+    std::vector<float> temp(_vPopulation.at(_gen()%_vPopulation.size()).params);
+
+    for(unsigned int i=0;i<temp.size();i++)
+    {
+        if(_gen()%2)
+            temp[i] = b[i];
+    }
+
     return temp;
 }
 
@@ -129,17 +154,41 @@ bool Evolution::checkEnd()
 void Evolution::makeNextGeneration()
 {
     std::vector<res> temp;
+    // około 5% populacji całkowicie losowej
+    while(temp.size()<(_population/20))
+        temp.push_back(res{getRandomParams()});
+    // około 15% populacji jako hybrydy
+    while(temp.size()<(_population/5))
+        temp.push_back(res{makeHybrid()});
     // skopiuj najlepszego osobnika bez zmian
     temp.push_back(_vPopulation.at(0));
 
-    for(unsigned int i=0;i<_vPopulation.size();i++)
+    float th = 1;
+    while(temp.size()<_population)
     {
-        temp.push_back(res{getChildParams(_vPopulation.at(i).params)});
-        if(temp.size()>=_population)
-            break;
-        temp.push_back(res{getChildParams(_vPopulation.at(i).params)});
-        if(temp.size()>=_population)
-            break;
+        for(int i=0;i<th;i++)
+        {
+            temp.push_back(res{getChildParams(_vPopulation.at(i).params)});
+            if(temp.size()>=_population)
+                break;
+        }
+        th+=.15;
     }
+
+//    for(unsigned int i=0;i<_vPopulation.size();i++)
+//    {
+//        temp.push_back(res{getChildParams(_vPopulation.at(i).params)});
+//        if(temp.size()>=_population)
+//            break;
+//        temp.push_back(res{getChildParams(_vPopulation.at(i).params)});
+//        if(temp.size()>=_population)
+//            break;
+//        temp.push_back(res{getChildParams(_vPopulation.at(i).params)});
+//        if(temp.size()>=_population)
+//            break;
+//        temp.push_back(res{getChildParams(_vPopulation.at(i).params)});
+//        if(temp.size()>=_population)
+//            break;
+//    }
     _vPopulation.swap(temp);
 }

@@ -21,6 +21,7 @@
  * W pozostałych przypadkach wartości są przepisywane bez zmian.
  *
  * <TODO> Jakieś lepsze warunki zakończenia?
+ * <TODO> Lepsze dobieranie skoków przeszukiwania?
  */
 
 class Evolution : public Searcher
@@ -41,12 +42,15 @@ private:
     const float _endValue;
 
     std::mt19937 _gen;
-    std::normal_distribution<float> _norm;
+    std::normal_distribution<float> _normHigh;
+    std::normal_distribution<float> _normLow;
+    std::normal_distribution<float> _normMid;
 
     std::vector<res> _vPopulation;
 
     std::vector<float> getRandomParams();
     std::vector<float> getChildParams(const std::vector<float>& parent);
+    std::vector<float> makeHybrid();
 
     void genNewPopulation();
     void simulateAndSortPopulation();
