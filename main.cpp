@@ -22,10 +22,10 @@ int main()
 
 
 //    StupidSearcher ss(10000, ins, StupidSearcher::samples, res);
-    Evolution ss(ins, 100, 100, 0, res, 1);
+    Evolution ss(ins, 100, 100, res, 1);
 
     ss.run();
-//    cout << res->report() << endl << endl << endl;
+    cout << res->report() << endl << endl << endl;
 
     cout << ss.getResult().toString() << endl;
 

@@ -18,7 +18,7 @@ void ResultKeeper::clear()
  */
 void ResultKeeper::append(std::vector<float> params, float result, std::string description)
 {
-    _res.push_back(res{params, result, description});
+    _res.push_back(res{params, description, result});
 }
 
 /**
