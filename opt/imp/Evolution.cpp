@@ -3,6 +3,7 @@
 #include <iostream>
 #include <algorithm>
 #include <ctime>
+#include <chrono>
 #include "../Instance.hpp"
 
 /**
@@ -25,12 +26,12 @@ Evolution::Evolution(std::shared_ptr<Instance> ins,
     _steps(steps),
     _endValue(endValue),
     _normHigh(1, 20),
-    _normLow(1, .002),
+    _normLow(1, .0002),
     _normMid(1, 2)
 {
     _gen.seed(std::time(nullptr));
 
-    if(population<10)
+    if(population<20)
         throw std::logic_error("Evolution::Evolution: zbyt mała populacja.");
 
 }
@@ -129,6 +130,7 @@ void Evolution::simulateAndSortPopulation()
 {
     for(std::vector<res>::iterator it = _vPopulation.begin();it!=_vPopulation.end(); it++)
         it->result = _ins->sim(it->params);
+
     std::sort(_vPopulation.rbegin(), _vPopulation.rend());
 }
 
@@ -157,8 +159,8 @@ void Evolution::makeNextGeneration()
     // około 5% populacji całkowicie losowej
     while(temp.size()<(_population/20))
         temp.push_back(res{getRandomParams()});
-    // około 15% populacji jako hybrydy
-    while(temp.size()<(_population/5))
+    // około 45% populacji jako hybrydy
+    while(temp.size()<(_population/2))
         temp.push_back(res{makeHybrid()});
     // skopiuj najlepszego osobnika bez zmian
     temp.push_back(_vPopulation.at(0));
@@ -175,20 +177,5 @@ void Evolution::makeNextGeneration()
         th+=.15;
     }
 
-//    for(unsigned int i=0;i<_vPopulation.size();i++)
-//    {
-//        temp.push_back(res{getChildParams(_vPopulation.at(i).params)});
-//        if(temp.size()>=_population)
-//            break;
-//        temp.push_back(res{getChildParams(_vPopulation.at(i).params)});
-//        if(temp.size()>=_population)
-//            break;
-//        temp.push_back(res{getChildParams(_vPopulation.at(i).params)});
-//        if(temp.size()>=_population)
-//            break;
-//        temp.push_back(res{getChildParams(_vPopulation.at(i).params)});
-//        if(temp.size()>=_population)
-//            break;
-//    }
     _vPopulation.swap(temp);
 }
