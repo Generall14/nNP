@@ -24,8 +24,6 @@ int main()
 
     std::shared_ptr<ResultKeeper> res(new ResultKeeper());
 
-
-//    StupidSearcher ss(10000, ins, StupidSearcher::samples, res);
     Evolution ss(ins, 60, 400000, res, -0.01);
 
     ss.run();
